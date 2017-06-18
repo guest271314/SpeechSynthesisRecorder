@@ -71,7 +71,7 @@ Usage
       /*
       // `data` : `AudioBuffer`
       let source = tts.audioContext.createBufferSource();
-      source.buffer = ab;
+      source.buffer = data;
       source.connect(tts.audioContext.destination);
       source.start()
       */
@@ -86,9 +86,14 @@ Usage
       */
       /*
       // `data` : `ReabableStream`
-      data.getReader().read().then(d => { 
+      data.getReader().read().then(({value, done}) => { 
         // do stuff with stream
-        tts.audioNode.src = URL.createObjectURL(d.value[0])
+        tts.audioNode.src = URL.createObjectURL(value[0]);
+        tts.audioNode.title = tts.utterance.text;
+        tts.audioNode.onloadedmetadata = () => {
+          console.log(tts.audioNode.duration);
+          tts.audioNode.play();
+        }
       })
       */
       /*
