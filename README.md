@@ -22,7 +22,7 @@ Usage
         rate: 1
       }, {
         mimeType: "audio/webm; codecs=opus"
-      }, "mediaStream");
+      }, /* `dataType` */  "mediaStream");
       
       /*
       `dataType` : 
@@ -36,8 +36,10 @@ Usage
 
      ttsRecording
      .then(({tts, data}) => {
-      // do stuff with `ArrayBuffer`, `AudioBuffer`, `Blob`, `MediaSource`, `MediaStream`, `ReadableStream`
-      console.log(tts, data);
+      // do stuff with `ArrayBuffer`, `AudioBuffer`, `Blob`, 
+      // `MediaSource`, `MediaStream`, `ReadableStream`;
+      // for example, play audio, download audio
+      console.log(tts, data); // `tts` : `SpeechSynthesisRecorder` instance, `data` : audio as `dataType`
       /*
       // `data` : `MediaSource`
       tts.audioNode.srcObj = data;
