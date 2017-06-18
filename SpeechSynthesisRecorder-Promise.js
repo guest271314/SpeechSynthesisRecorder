@@ -26,11 +26,13 @@
         this.speechSynthesis = window.speechSynthesis;
         this.mediaStream_ = new MediaStream();
         this.mediaSource_ = new MediaSource();
-        this.mediaRecorder = new MediaRecorder(this.mediaStream_, recorderOptions || {
+        this.mediaRecorder = new MediaRecorder(this.mediaStream);
+          // Firefox logs operation not supported
+          // _, recorderOptions || {
           // does not set value at chromium 58
           /* audioBitsPerSecond: 128000, */
-          mimeType: "audio/webm; codecs=opus"
-        });
+          // mimeType: "audio/webm; codecs=opus"
+          // });
         this.audioContext = new AudioContext();
         this.audioNode = new Audio();
         this.chunks = Array();
@@ -96,9 +98,9 @@
       }
       blob() {
         if (!this.chunks.length) throw new Error("no data to return");
-        return Promise.resolve(new Blob(this.chunks, {
+        return Promise.resolve({tts:this, data:new Blob(this.chunks, {
           type: this.mimeType
-        }));
+        })});
       }
       arrayBuffer(blob) {
         if (!this.chunks.length) throw new Error("no data to return");
