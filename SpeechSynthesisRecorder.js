@@ -120,9 +120,6 @@
         const buffer = await this.audioContext.decodeAudioData(ab);
         return buffer
       }     
-      async mediaStream() {
-        
-      }
       async mediaSource() {
         if (!this.chunks.length) throw new Error("no data to return");
         const ab = await this.arrayBuffer();
