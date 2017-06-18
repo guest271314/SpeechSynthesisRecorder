@@ -1,4 +1,4 @@
-# SpeechSynthesisRecorder
+# SpeechSynthesisRecorder.js
 Utilize `navigator.mediaDevices.getUserMedia()` and `MediaRecorder` to get audio output from `window.speechSynthesis.speak()` call as `ArrayBuffer`, `AudioBuffer`, `Blob`, `MediaSource`, `ReadableStream`, or other object or data types, see [MediaStream, ArrayBuffer, Blob audio result from speak() for recording?](https://lists.w3.org/Archives/Public/public-speech-api/2017Jun/0000.html).
 
 Prerequisites
@@ -96,3 +96,7 @@ Usage
       // do stuff with active `MediaStream`
      })
      .catch(err => console.log(err))
+     
+ Demonstration
+ ===
+ [plnkr](https://plnkr.co/edit/7Y2ifjRK5K9YGwT9G8nn?p=preview)
