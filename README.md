@@ -12,7 +12,37 @@ Launch Chromium browser with `--enable-speech-dispatcher` flag set.
 
 Usage 
 ---
+    // Promise version
+    let ttsRecorder = new SpeechSynthesisRecorder("The revolution will not be televised", {
+      voice: "english-us espeak",
+      lang: "en-US",
+      pitch: .75,
+      rate: 1
+    }, {
+      mimeType: "audio/webm; codecs=opus"
+    }, "readableStream");
 
+    ttsRecorder.start()
+      .then(tts => tts.readableStream())
+      .then(({tts, data}) => {
+        // do stuff with `ArrayBuffer`, `AudioBuffer`, `Blob`, `MediaSource`, `MediaStream`, `ReadableStream`
+        console.log(tts, data);
+        data.getReader().read().then(({value, done}) => {
+          // do stuff with stream
+          tts.audioNode.src = URL.createObjectURL(value[0]);
+          tts.audioNode.title = tts.utterance.text;
+          tts.audioNode.onloadedmetadata = () => {
+            console.log(tts.audioNode.duration);
+            tts.audioNode.play();
+          }
+        })
+      })
+
+
+<br>
+
+
+    // async/await
     async function ttsRecorder(text, utteranceOptions, recorderOptions, dataType = void 0) {
       if (dataType === undefined) throw new TypeError("dataType is undefined");
       const ttsRecorder = await new SpeechSynthesisRecorder(text, utteranceOptions, recorderOptions, dataType);
