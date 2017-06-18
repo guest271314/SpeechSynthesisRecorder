@@ -27,8 +27,6 @@
         this.mediaStream_ = new MediaStream();
         this.mediaSource_ = new MediaSource();
         this.mediaRecorder = new MediaRecorder(this.mediaStream_, recorderOptions || {
-          // does not set value at chromium 58
-          /* audioBitsPerSecond: 128000, */ 
           mimeType: "audio/webm; codecs=opus"
         });
         this.audioContext = new AudioContext();
@@ -138,7 +136,7 @@
         });
         return mediaSource
       }
-      async readableStream(size = 1024, rsOptions = {}) {
+      async readableStream(size = 1024, rsOptions = {}, /* controllers = {start(){}, pull(){}} */) {
         if (!this.chunks.length) throw new Error("no data to return");
         const src = this.chunks.slice(0);
         const chunk = size;
