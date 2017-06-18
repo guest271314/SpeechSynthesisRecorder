@@ -127,7 +127,7 @@
       mediaSource() {
         if (!this.chunks.length) throw new Error("no data to return");
         return this.arrayBuffer()
-          .then(ab => new Promise((resolve, reject) => {
+          .then(({data:ab}) => new Promise((resolve, reject) => {
             this.mediaSource_.onsourceended = () => resolve({
               tts: this,
               data: this.mediaSource_
