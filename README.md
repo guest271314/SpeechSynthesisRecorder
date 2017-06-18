@@ -1,9 +1,9 @@
 # SpeechSynthesisRecorder
-Utilize `navigator.mediaDevices.getUserMedia()` and `MediaRecorder` to get audio output from `window.speechSynthesis.speak()` call as `ArrayBuffer`, `AudioBuffer`, `Blob`, `MediaSource`, `ReadableStream`, or other object or data types, see https://lists.w3.org/Archives/Public/public-speech-api/2017Jun/0000.html.
+Utilize `navigator.mediaDevices.getUserMedia()` and `MediaRecorder` to get audio output from `window.speechSynthesis.speak()` call as `ArrayBuffer`, `AudioBuffer`, `Blob`, `MediaSource`, `ReadableStream`, or other object or data types, see [MediaStream, ArrayBuffer, Blob audio result from speak() for recording?](https://lists.w3.org/Archives/Public/public-speech-api/2017Jun/0000.html).
 
 Usage 
 
-    async function ttsRecorder(text, utteranceOptions, recorderOptions, dataType = void 0 /* "blob" : Blob; "arrayBuffer" : ArrayBuffer; "audioBuffer" : AudioBuffer;  "mediaSource" : MediaSource, "readableStream" : ReadableStream */) {
+    async function ttsRecorder(text, utteranceOptions, recorderOptions, dataType = void 0) {
       if (dataType === undefined) throw new TypeError("dataType is undefined");
       const ttsRecorder = await new SpeechSynthesisRecorder(text, utteranceOptions, recorderOptions, dataType);
 
@@ -22,11 +22,21 @@ Usage
         rate: 1
       }, {
         mimeType: "audio/webm; codecs=opus"
-      }, "mediaStream" /* "blob" : Blob; "arrayBuffer" : ArrayBuffer; "audioBuffer" : AudioBuffer;  "mediaSource" : MediaSource, "readableStream" : ReadableStream */);
+      }, "mediaStream");
+      
+      /*
+      `dataType` : 
+       "blob" : Blob,
+       "arrayBuffer" : ArrayBuffer,
+       "audioBuffer" : AudioBuffer,
+       "mediaSource" : MediaSource, 
+       "mediaStream" : MediaStream,
+       "readableStream" : ReadableStream
+      */
 
      ttsRecording
      .then(({tts, data}) => {
-      // do stuff with `ArrayBuffer`, `AudioBuffer`, `Blob`, `MediaSource`, `ReadableStream`
+      // do stuff with `ArrayBuffer`, `AudioBuffer`, `Blob`, `MediaSource`, `MediaStream`, `ReadableStream`
       console.log(tts, data);
       /*
       // `data` : `MediaSource`
