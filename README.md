@@ -61,7 +61,7 @@ Usage
       */
       /*
       // `data` : `ArrayBuffer`
-      tts.audioNode.srcObj = data;
+      tts.audioNode.src = URL.createObjectURL(new Blob(blob, {type:tts.mimeType}));
       tts.audioNode.title = tts.utterance.text;
       tts.audioNode.onloadedmetadata = () => {
         console.log(tts.audioNode.duration);
