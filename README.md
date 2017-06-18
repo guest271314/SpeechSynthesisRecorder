@@ -10,6 +10,8 @@ At `*nix` install [`espeak`](http://espeak.sourceforge.net/) or other speech syn
 
 Launch Chromium browser with `--enable-speech-dispatcher` flag set.
 
+At `Recording` option of system sound settings select `Monitor of Built-in Audio Analog Stereo` option instead of `Built-in Audio Analog Stereo` option.
+
 Usage 
 ---
     // Promise
