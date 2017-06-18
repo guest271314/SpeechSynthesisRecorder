@@ -1,7 +1,17 @@
 # SpeechSynthesisRecorder
 Utilize `navigator.mediaDevices.getUserMedia()` and `MediaRecorder` to get audio output from `window.speechSynthesis.speak()` call as `ArrayBuffer`, `AudioBuffer`, `Blob`, `MediaSource`, `ReadableStream`, or other object or data types, see [MediaStream, ArrayBuffer, Blob audio result from speak() for recording?](https://lists.w3.org/Archives/Public/public-speech-api/2017Jun/0000.html).
 
+Prerequisites
+---
+
+At `*nix` install [`espeak`](http://espeak.sourceforge.net/) or other speech synthesizer using package manager
+
+`$ sudo apt install espeak`
+
+Launch Chromium browser with `--enable-speech-dispatcher` flag set.
+
 Usage 
+---
 
     async function ttsRecorder(text, utteranceOptions, recorderOptions, dataType = void 0) {
       if (dataType === undefined) throw new TypeError("dataType is undefined");
