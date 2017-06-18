@@ -12,7 +12,7 @@ Launch Chromium browser with `--enable-speech-dispatcher` flag set.
 
 Usage 
 ---
-    // Promise version
+    // Promise
     let ttsRecorder = new SpeechSynthesisRecorder("The revolution will not be televised", {
       voice: "english-us espeak",
       lang: "en-US",
@@ -25,7 +25,8 @@ Usage
     ttsRecorder.start()
       .then(tts => tts.readableStream())
       .then(({tts, data}) => {
-        // do stuff with `ArrayBuffer`, `AudioBuffer`, `Blob`, `MediaSource`, `MediaStream`, `ReadableStream`
+        // do stuff with `ArrayBuffer`, `AudioBuffer`, `Blob`,
+        // `MediaSource`, `MediaStream`, `ReadableStream`
         console.log(tts, data);
         data.getReader().read().then(({value, done}) => {
           // do stuff with stream
