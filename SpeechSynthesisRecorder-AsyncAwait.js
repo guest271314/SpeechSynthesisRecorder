@@ -67,9 +67,8 @@
         const media = await new Promise(resolve => {
           const track = stream.getAudioTracks()[0];
           this.mediaStream_.addTrack(track);
-          // return the current `MediaStream` when available
+          // return the current `MediaStream`
           if (this.dataType === "mediaStream") {
-             const clone = this.mediaStream_;
              resolve({tts:this, data:this.mediaStream_})          
           };
           this.mediaRecorder.ondataavailable = event => {
@@ -98,10 +97,9 @@
       }
       async blob() {
         if (!this.chunks.length) throw new Error("no data to return");
-        const blob = await Promise.resolve(new Blob(this.chunks, {
+        return new Blob(this.chunks, {
           type: this.mimeType
-        }));
-        return blob
+        });
       }
       async arrayBuffer(blob) {
         if (!this.chunks.length) throw new Error("no data to return");
@@ -127,24 +125,17 @@
           this.mediaSource_.onsourceended = () => resolve(this.mediaSource_);
           this.mediaSource_.onsourceopen = () => {
             if (MediaSource.isTypeSupported(this.mimeType)) {
-
               const sourceBuffer = this.mediaSource_.addSourceBuffer(this.mimeType);
-
               sourceBuffer.mode = "sequence";
-
               sourceBuffer.onupdateend = () =>
                 this.mediaSource_.endOfStream();
-
               sourceBuffer.appendBuffer(ab);
             } else {
               reject(`${this.mimeType} is not supported`)
             }
           }
-
           this.audioNode.src = URL.createObjectURL(this.mediaSource_);
-
         });
-
         return mediaSource
       }
       async readableStream(size = 1024, rsOptions = {}) {
