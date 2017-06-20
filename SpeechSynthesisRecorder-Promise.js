@@ -15,9 +15,8 @@
     // SpeechSynthesisUtterance ended event dispatched
 
     class SpeechSynthesisRecorder {
-      constructor(text = "", utteranceOptions = {}, recorderOptions = {}, dataType = void 0) {
+      constructor(text = "", utteranceOptions = {}, recorderOptions = {}) {
         if (text === "") throw new Error("no words to synthesize");
-        if (dataType === undefined) throw new TypeError("dataType is undefined");
         this.dataType = dataType;
         this.text = text;
         this.utterance = new SpeechSynthesisUtterance(this.text);
