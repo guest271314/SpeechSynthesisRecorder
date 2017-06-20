@@ -17,13 +17,13 @@
     class SpeechSynthesisRecorder {
       constructor(text = "", utteranceOptions = {}, recorderOptions = {}) {
         if (text === "") throw new Error("no words to synthesize");
-        this.dataType = dataType;
+        // this.dataType = dataType;
         this.text = text;
         this.utterance = new SpeechSynthesisUtterance(this.text);
         this.speechSynthesis = window.speechSynthesis;
         this.mediaStream_ = new MediaStream();
         this.mediaSource_ = new MediaSource();
-        this.mediaRecorder = new MediaRecorder(this.mediaStream);
+        this.mediaRecorder = new MediaRecorder(this.mediaStream_);
           // Firefox logs operation not supported
           // _, recorderOptions || {
           // does not set value at chromium 58
