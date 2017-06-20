@@ -3,14 +3,12 @@
     // Motivation: Get audio output from `window.speechSynthesis.speak()` call
     // as `ArrayBuffer`, `AudioBuffer`, `Blob`, `MediaSource`, `MediaStream`, `ReadableStream`, or other object or data types
     // See https://lists.w3.org/Archives/Public/public-speech-api/2017Jun/0000.html
+    // https://github.com/guest271314/SpeechSynthesisRecorder
 
     // Configuration: Analog Stereo Duplex
     // Input Devices: Monitor of Built-in Audio Analog Stereo, Built-in Audio Analog Stereo
     // Playback: Chromium: Playback, speech-dspatcher: playback
     // Recording: Chrome input: RecordStream from Monitor of Built-in Audio Analog Stereo
-    // Issues: Recording: Firefox throws `Uncaught (in promise) NavigatorUserMediaError {name: "TrackStartError", message: "", constraintName: ""}`
-    // Issues: `navigator.getUserMedia({audio:true}) throws error Uncaught (in promise) NavigatorUserMediaError {name: "TrackStartError", message: "", constraintName: ""}` and closes when RecordStream from Monitor of Built-in Audio Analog Stereo is set, at *nix OS
-    // See https://bugzilla.mozilla.org/show_bug.cgi?id=1373364
     // Issues: Stop MediaStream, navigator.getUserMedia() when recording is complete
     // Issues: When MediaStream is returned avoid feedback; 
     // get accurate media duration; stop all associated MediaStream when  
