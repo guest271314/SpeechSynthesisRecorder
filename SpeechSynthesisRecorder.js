@@ -7,35 +7,22 @@
 
     // Configuration: Analog Stereo Duplex
     // Input Devices: Monitor of Built-in Audio Analog Stereo, Built-in Audio Analog Stereo
-    // Playback: Chromium: Playback, speech-dspatcher: playback
-    // Recording: Chrome input: RecordStream from Monitor of Built-in Audio Analog Stereo
-    // Issues: Stop MediaStream, navigator.getUserMedia() when recording is complete
-    // Issues: When MediaStream is returned avoid feedback; 
-    // get accurate media duration; stop all associated MediaStream when  
-    // SpeechSynthesisUtterance ended event dispatched
 
     class SpeechSynthesisRecorder {
       constructor(text = "", utteranceOptions = {}, recorderOptions = {}) {
         if (text === "") throw new Error("no words to synthesize");
         // this.dataType = dataType;
         this.text = text;
+        this.mimeType = MediaRecorder.isTypeSupported("audio/webm; codecs=opus") 
+                        ? "audio/webm; codecs=opus" : "audio/ogg; codecs=opus";
         this.utterance = new SpeechSynthesisUtterance(this.text);
         this.speechSynthesis = window.speechSynthesis;
         this.mediaStream_ = new MediaStream();
         this.mediaSource_ = new MediaSource();
-        this.mediaRecorder = new MediaRecorder(this.mediaStream_);
-          // Firefox logs operation not supported
-          // _, recorderOptions || {
-          // does not set value at chromium 58
-          /* audioBitsPerSecond: 128000, */
-          // mimeType: "audio/webm; codecs=opus"
-          // });
+        this.mediaRecorder = new MediaRecorder(this.mediaStream_, {mimeType:this.mimeType});
         this.audioContext = new AudioContext();
         this.audioNode = new Audio();
         this.chunks = Array();
-        this.mimeType = recorderOptions.mimeType || "audio/webm; codecs=opus";
-        // adjust codecs set at `type` of `Blob` is necessary
-        // this.blobType = this.mimeType.substring(0, this.mimeType.indexOf(";"));
         if (utteranceOptions) {
           if (utteranceOptions.voice) {
             this.speechSynthesis.onvoiceschanged = e => {
@@ -133,24 +120,17 @@
             });
             this.mediaSource_.onsourceopen = () => {
               if (MediaSource.isTypeSupported(this.mimeType)) {
-
                 const sourceBuffer = this.mediaSource_.addSourceBuffer(this.mimeType);
-
-                sourceBuffer.mode = "sequence";
-
+                sourceBuffer.mode = "sequence"
                 sourceBuffer.onupdateend = () =>
                   this.mediaSource_.endOfStream();
-
                 sourceBuffer.appendBuffer(ab);
               } else {
                 reject(`${this.mimeType} is not supported`)
               }
             }
-
             this.audioNode.src = URL.createObjectURL(this.mediaSource_);
-
           }));
-
       }
       readableStream(size = 1024, rsOptions = {}) {
         if (!this.chunks.length) throw new Error("no data to return");
@@ -168,7 +148,6 @@
                 controller.enqueue(src.splice(0, chunk));
               }
           }, rsOptions)
-
         });
       }
     }
