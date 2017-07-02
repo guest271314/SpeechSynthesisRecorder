@@ -90,5 +90,5 @@ Select `Monitor of Built-in Audio Analog Stereo` option instead of `Built-in Aud
      .catch(err => console.log(err))
      
  Demonstration
- ===
+ ---
  [plnkr](https://plnkr.co/edit/7Y2ifjRK5K9YGwT9G8nn?p=preview)
