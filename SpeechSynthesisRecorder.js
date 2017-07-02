@@ -19,7 +19,7 @@
         this.speechSynthesis = window.speechSynthesis;
         this.mediaStream_ = new MediaStream();
         this.mediaSource_ = new MediaSource();
-        this.mediaRecorder = new MediaRecorder(this.mediaStream_, {mimeType:this.mimeType});
+        this.mediaRecorder = new MediaRecorder(this.mediaStream_, {mimeType:this.mimeType, bitsPerSecond:16});
         this.audioContext = new AudioContext();
         this.audioNode = new Audio();
         this.chunks = Array();
@@ -132,13 +132,13 @@
             this.audioNode.src = URL.createObjectURL(this.mediaSource_);
           }));
       }
-      readableStream(size = 1024, rsOptions = {}) {
+      readableStream(size = 1024, controllerOptions = {}, rsOptions = {}) {
         if (!this.chunks.length) throw new Error("no data to return");
         const src = this.chunks.slice(0);
         const chunk = size;
         return Promise.resolve({
           tts: this,
-          data: new ReadableStream({
+          data: new ReadableStream(controllerOptions || {
             start(controller) {
                 console.log(src.length);
                 controller.enqueue(src.splice(0, chunk))
@@ -151,3 +151,4 @@
         });
       }
     }
+
