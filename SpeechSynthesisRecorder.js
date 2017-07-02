@@ -1,5 +1,4 @@
-    // SpeechSynthesisRecorder.js guest271314 <guest271314@gmail.com> 6-17-2017
-    // Version 0.0.2
+    // SpeechSynthesisRecorder.js guest271314 6-17-2017
     // Motivation: Get audio output from `window.speechSynthesis.speak()` call
     // as `ArrayBuffer`, `AudioBuffer`, `Blob`, `MediaSource`, `MediaStream`, `ReadableStream`, or other object or data types
     // See https://lists.w3.org/Archives/Public/public-speech-api/2017Jun/0000.html
@@ -9,9 +8,9 @@
     // Input Devices: Monitor of Built-in Audio Analog Stereo, Built-in Audio Analog Stereo
 
     class SpeechSynthesisRecorder {
-      constructor(text = "", utteranceOptions = {}, recorderOptions = {}) {
+      constructor(text = "", utteranceOptions = {}, recorderOptions = {}, dataType = void 0) {
         if (text === "") throw new Error("no words to synthesize");
-        // this.dataType = dataType;
+        this.dataType = dataType;
         this.text = text;
         this.mimeType = MediaRecorder.isTypeSupported("audio/webm; codecs=opus") 
                         ? "audio/webm; codecs=opus" : "audio/ogg; codecs=opus";
@@ -19,7 +18,7 @@
         this.speechSynthesis = window.speechSynthesis;
         this.mediaStream_ = new MediaStream();
         this.mediaSource_ = new MediaSource();
-        this.mediaRecorder = new MediaRecorder(this.mediaStream_, {mimeType:this.mimeType, bitsPerSecond:16});
+        this.mediaRecorder = new MediaRecorder(this.mediaStream_, {mimeType:this.mimeType});
         this.audioContext = new AudioContext();
         this.audioNode = new Audio();
         this.chunks = Array();
@@ -34,9 +33,7 @@
             }
             this.speechSynthesis.getVoices();
           }
-          let {
-            lang, rate, pitch
-          } = utteranceOptions;
+          let {lang, rate, pitch} = utteranceOptions;
           Object.assign(this.utterance, {
             lang, rate, pitch
           });
@@ -54,7 +51,7 @@
             const track = stream.getAudioTracks()[0];
             this.mediaStream_.addTrack(track);
             // return the current `MediaStream`
-            if (this.dataType === "mediaStream") {
+            if (this.dataType && this.dataType === "mediaStream") {
               resolve(this)
             };
             this.mediaRecorder.ondataavailable = event => {
@@ -151,4 +148,3 @@
         });
       }
     }
-
