@@ -1,19 +1,14 @@
 # SpeechSynthesisRecorder.js
 Utilize `navigator.mediaDevices.getUserMedia()` and `MediaRecorder` to get audio output from `window.speechSynthesis.speak()` call as `ArrayBuffer`, `AudioBuffer`, `Blob`, `MediaSource`, `ReadableStream`, or other object or data types, see [MediaStream, ArrayBuffer, Blob audio result from speak() for recording?](https://lists.w3.org/Archives/Public/public-speech-api/2017Jun/0000.html).
 
-Prerequisites
----
 
-At `*nix` install [`espeak`](http://espeak.sourceforge.net/) or other speech synthesizer using package manager
 
-`$ sudo apt install espeak`
-
-Launch Chromium browser with `--enable-speech-dispatcher` flag set.
-
-Select `Monitor of Built-in Audio Analog Stereo` option instead of `Built-in Audio Analog Stereo` option at `navigator.mediaDevices.getUserMedia()` prompt.
 
 Usage 
 ---
+
+Select `Monitor of Built-in Audio Analog Stereo` option instead of `Built-in Audio Analog Stereo` option at `navigator.mediaDevices.getUserMedia()` prompt.
+
     let ttsRecorder = new SpeechSynthesisRecorder("The revolution will not be televised", {
       voice: "english-us espeak",
       lang: "en-US",
