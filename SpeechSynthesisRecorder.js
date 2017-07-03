@@ -18,7 +18,10 @@
         this.speechSynthesis = window.speechSynthesis;
         this.mediaStream_ = new MediaStream();
         this.mediaSource_ = new MediaSource();
-        this.mediaRecorder = new MediaRecorder(this.mediaStream_, {mimeType:this.mimeType});
+        this.mediaRecorder = new MediaRecorder(this.mediaStream_, {
+          mimeType: this.mimeType,
+          bitsPerSecond: 256 * 8 * 1024
+        });
         this.audioContext = new AudioContext();
         this.audioNode = new Audio();
         this.chunks = Array();
@@ -33,7 +36,9 @@
             }
             this.speechSynthesis.getVoices();
           }
-          let {lang, rate, pitch} = utteranceOptions;
+          let {
+            lang, rate, pitch
+          } = utteranceOptions;
           Object.assign(this.utterance, {
             lang, rate, pitch
           });
@@ -52,8 +57,7 @@
             this.mediaStream_.addTrack(track);
             // return the current `MediaStream`
             if (this.dataType && this.dataType === "mediaStream") {
-              resolve({tts:this, data:this.mediaStream_});
-              return;
+              resolve({tts:this, data:this.mediaStream_})
             };
             this.mediaRecorder.ondataavailable = event => {
               if (event.data.size > 0) {
@@ -80,9 +84,12 @@
       }
       blob() {
         if (!this.chunks.length) throw new Error("no data to return");
-        return Promise.resolve({tts:this, data:new Blob(this.chunks, {
-          type: this.mimeType
-        })});
+        return Promise.resolve({
+          tts: this,
+          data: this.chunks.length === 1 ? this.chunks[0] : new Blob(this.chunks, {
+            type: this.mimeType
+          })
+        });
       }
       arrayBuffer(blob) {
         if (!this.chunks.length) throw new Error("no data to return");
@@ -94,7 +101,7 @@
           }));
           reader.readAsArrayBuffer(blob ? new Blob(blob, {
             type: blob.type
-          }) : new Blob(this.chunks, {
+          }) : this.chunks.length === 1 ? this.chunks[0] : new Blob(this.chunks, {
             type: this.mimeType
           }));
         });
@@ -111,7 +118,9 @@
       mediaSource() {
         if (!this.chunks.length) throw new Error("no data to return");
         return this.arrayBuffer()
-          .then(({data:ab}) => new Promise((resolve, reject) => {
+          .then(({
+            data: ab
+          }) => new Promise((resolve, reject) => {
             this.mediaSource_.onsourceended = () => resolve({
               tts: this,
               data: this.mediaSource_
