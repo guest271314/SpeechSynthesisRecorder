@@ -52,7 +52,8 @@
             this.mediaStream_.addTrack(track);
             // return the current `MediaStream`
             if (this.dataType && this.dataType === "mediaStream") {
-              resolve(this)
+              resolve({tts:this, data:this.mediaStream_});
+              return;
             };
             this.mediaRecorder.ondataavailable = event => {
               if (event.data.size > 0) {
