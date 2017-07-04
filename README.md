@@ -21,6 +21,7 @@ Select `Monitor of Built-in Audio Analog Stereo` option instead of `Built-in Aud
     
      // `data` : `ArrayBuffer`
      ttsRecorder.start()
+     // `tts` : `SpeechSynthesisRecorder` instance, `data` : audio as `dataType` or method call result
      .then(tts => tts.arrayBuffer())
      .then(({tts, data}) => {
        tts.audioNode.src = URL.createObjectURL(new Blob([data], {type:tts.mimeType}));
@@ -74,7 +75,7 @@ Select `Monitor of Built-in Audio Analog Stereo` option instead of `Built-in Aud
        // do stuff with `ArrayBuffer`, `AudioBuffer`, `Blob`, 
        // `MediaSource`, `MediaStream`, `ReadableStream`;
        // for example, play audio, download audio
-       console.log(tts, data); // `tts` : `SpeechSynthesisRecorder` instance, `data` : audio as `dataType`
+       console.log(tts, data);
        // `data` : `MediaSource`
        tts.audioNode.srcObj = data;
        tts.audioNode.title = tts.utterance.text;
