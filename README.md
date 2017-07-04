@@ -19,11 +19,14 @@ Select `Monitor of Built-in Audio Analog Stereo` option instead of `Built-in Aud
        }
      });
     
-     // `data` : `ArrayBuffer`
+     // ArrayBuffer
      ttsRecorder.start()
      // `tts` : `SpeechSynthesisRecorder` instance, `data` : audio as `dataType` or method call result
      .then(tts => tts.arrayBuffer())
      .then(({tts, data}) => {
+       // do stuff with `ArrayBuffer`, `AudioBuffer`, `Blob`,
+       // `MediaSource`, `MediaStream`, `ReadableStream`
+       // `data` : `ArrayBuffer`
        tts.audioNode.src = URL.createObjectURL(new Blob([data], {type:tts.mimeType}));
        tts.audioNode.title = tts.utterance.text;
        tts.audioNode.onloadedmetadata = () => {
@@ -31,19 +34,21 @@ Select `Monitor of Built-in Audio Analog Stereo` option instead of `Built-in Aud
          tts.audioNode.play();
        }
      })
-     // `data` : `AudioBuffer`
+     // AudioBuffer     
      ttsRecorder.start()
      .then(tts => tts.audioBuffer())
      .then(({tts, data}) => {
+       // `data` : `AudioBuffer`
        let source = tts.audioContext.createBufferSource();
        source.buffer = data;
        source.connect(tts.audioContext.destination);
        source.start()
      })
-      // `data` : `Blob`
+     // Blob
      ttsRecorder.start()
      .then(tts => tts.blob())
      .then(({tts, data}) => {
+       // `data` : `Blob`
        tts.audioNode.src = URL.createObjectURL(blob);
        tts.audioNode.title = tts.utterance.text;
        tts.audioNode.onloadedmetadata = () => {
@@ -52,14 +57,12 @@ Select `Monitor of Built-in Audio Analog Stereo` option instead of `Built-in Aud
        }
      })
      // ReadableStream
-    ttsRecorder.start()
-    .then(tts => tts.readableStream())
-    .then(({tts, data}) => {
-       // do stuff with `ArrayBuffer`, `AudioBuffer`, `Blob`,
-       // `MediaSource`, `MediaStream`, `ReadableStream`
+     ttsRecorder.start()
+     .then(tts => tts.readableStream())
+     .then(({tts, data}) => {
+       // `data` : `ReadableStream`
        console.log(tts, data);
        data.getReader().read().then(({value, done}) => {
-         // do stuff with stream
          tts.audioNode.src = URL.createObjectURL(value[0]);
          tts.audioNode.title = tts.utterance.text;
          tts.audioNode.onloadedmetadata = () => {
@@ -72,9 +75,6 @@ Select `Monitor of Built-in Audio Analog Stereo` option instead of `Built-in Aud
      ttsRecorder.start()
      .then(tts => tts.mediaSource())
      .then(({tts, data}) => {
-       // do stuff with `ArrayBuffer`, `AudioBuffer`, `Blob`, 
-       // `MediaSource`, `MediaStream`, `ReadableStream`;
-       // for example, play audio, download audio
        console.log(tts, data);
        // `data` : `MediaSource`
        tts.audioNode.srcObj = data;
@@ -84,7 +84,7 @@ Select `Monitor of Built-in Audio Analog Stereo` option instead of `Built-in Aud
          tts.audioNode.play();
        }
      })
-     // `data` : `MediaStream`
+     // MediaStream
      let ttsRecorder = new SpeechSynthesisRecorder({
        text: "The revolution will not be televised", 
        utternanceOptions: {
@@ -97,6 +97,7 @@ Select `Monitor of Built-in Audio Analog Stereo` option instead of `Built-in Aud
      });
      ttsRecorder.start()
      .then(({tts, data}) => {
+       // `data` : `MediaStream`
        // do stuff with active `MediaStream`
      })
      .catch(err => console.log(err))
