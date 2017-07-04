@@ -8,7 +8,7 @@
     // Input Devices: Monitor of Built-in Audio Analog Stereo, Built-in Audio Analog Stereo
 
     class SpeechSynthesisRecorder {
-      constructor(text = "", utteranceOptions = {}, recorderOptions = {}, dataType = void 0) {
+      constructor({text = "", utteranceOptions = {}, recorderOptions = {}, dataType = ""}) {
         if (text === "") throw new Error("no words to synthesize");
         this.dataType = dataType;
         this.text = text;
@@ -57,7 +57,7 @@
             this.mediaStream_.addTrack(track);
             // return the current `MediaStream`
             if (this.dataType && this.dataType === "mediaStream") {
-              resolve({tts:this, data:this.mediaStream_})
+              resolve({tts:this, data:this.mediaStream_});
             };
             this.mediaRecorder.ondataavailable = event => {
               if (event.data.size > 0) {
@@ -139,7 +139,7 @@
             this.audioNode.src = URL.createObjectURL(this.mediaSource_);
           }));
       }
-      readableStream(size = 1024, controllerOptions = {}, rsOptions = {}) {
+      readableStream({size = 1024, controllerOptions = {}, rsOptions = {}}) {
         if (!this.chunks.length) throw new Error("no data to return");
         const src = this.chunks.slice(0);
         const chunk = size;
