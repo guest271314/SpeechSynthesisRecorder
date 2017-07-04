@@ -9,14 +9,15 @@ Usage
 
 Select `Monitor of Built-in Audio Analog Stereo` option instead of `Built-in Audio Analog Stereo` option at `navigator.mediaDevices.getUserMedia()` prompt.
 
-    let ttsRecorder = new SpeechSynthesisRecorder({
-      text: "The revolution will not be televised", 
-      utternanceOptions: {
-        voice: "english-us espeak",
-        lang: "en-US",
-        pitch: .75,
-        rate: 1
-      }});
+     let ttsRecorder = new SpeechSynthesisRecorder({
+       text: "The revolution will not be televised", 
+       utternanceOptions: {
+         voice: "english-us espeak",
+         lang: "en-US",
+         pitch: .75,
+         rate: 1
+       }
+     });
     
      // `data` : `ArrayBuffer`
      ttsRecorder.start()
@@ -83,6 +84,16 @@ Select `Monitor of Built-in Audio Analog Stereo` option instead of `Built-in Aud
        }
      })
      // `data` : `MediaStream`
+     let ttsRecorder = new SpeechSynthesisRecorder({
+       text: "The revolution will not be televised", 
+       utternanceOptions: {
+         voice: "english-us espeak",
+         lang: "en-US",
+         pitch: .75,
+         rate: 1
+       }, 
+       dataType:"mediaStream"
+     });
      ttsRecorder.start()
      .then(({tts, data}) => {
        // do stuff with active `MediaStream`
