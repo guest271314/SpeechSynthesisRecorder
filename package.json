@@ -1,0 +1,23 @@
+{
+  "name": "speech-synthesis-recorder",
+  "version": "1.0.0",
+  "description": "Record data instead of playing it from SpeechSynthesis.speak()",
+  "main": "SpeechSynthesisRecorder.js",
+  "scripts": {
+    "test": "standard"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guest271314/SpeechSynthesisRecorder.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/guest271314/SpeechSynthesisRecorder/issues"
+  },
+  "homepage": "https://github.com/guest271314/SpeechSynthesisRecorder#readme",
+  "devDependencies": {
+    "standard": "^10.0.3"
+  }
+}

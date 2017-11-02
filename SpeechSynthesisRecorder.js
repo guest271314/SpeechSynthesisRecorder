@@ -159,3 +159,5 @@ class SpeechSynthesisRecorder {
     })
   }
 }
+if (typeof module !== 'undefined') module.exports = SpeechSynthesisRecorder
+if (typeof window !== 'undefined') window.SpeechSynthesisRecorder = SpeechSynthesisRecorder
