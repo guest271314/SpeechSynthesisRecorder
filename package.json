@@ -1,7 +1,7 @@
 {
   "name": "speech-synthesis-recorder",
   "version": "1.0.0",
-  "description": "Record data instead of playing it from SpeechSynthesis.speak()",
+  "description": "Get audio output from window.speechSynthesis.speak() call as ArrayBuffer, AudioBuffer, Blob, MediaSource, MediaStream, ReadableStream, other object or data types",
   "main": "SpeechSynthesisRecorder.js",
   "scripts": {
     "test": "standard"
