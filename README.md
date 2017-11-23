@@ -7,6 +7,20 @@ Use [`navigator.mediaDevices.getUserMedia()`][getUserMedia] and
 [`ReadableStream`][ReadableStream], or other object or data 
 types, see [MediaStream, ArrayBuffer, Blob audio result from speak() for recording?](https://lists.w3.org/Archives/Public/public-speech-api/2017Jun/0000.html).
 
+## Install
+
+Add the following script tag
+
+```html
+<script type="text/javascript" src="https://unpkg.com/speech-synthesis-recorder@1.0.0/SpeechSynthesisRecorder.js"></script>
+```
+
+or npm install
+
+```bash
+$ npm install --save speech-synthesis-recorder
+```
+
 ## Usage
 
 Select `Monitor of Built-in Audio Analog Stereo` option instead of 
