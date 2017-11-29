@@ -147,7 +147,7 @@ ttsRecorder.start()
 ## Demo
 [plnkr][plnkr]
 
-[plnkr]: https://plnkr.co/edit/7Y2ifjRK5K9YGwT9G8nn?p=preview
+[plnkr]: https://plnkr.co/edit/PmpCSJ9GtVCXDhnOqn3D?p=preview
 [getUserMedia]: https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
 [MediaRecorder]: https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder
 [speak]: https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis/speak
