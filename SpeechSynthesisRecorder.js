@@ -53,6 +53,26 @@ class SpeechSynthesisRecorder {
     return navigator.mediaDevices.getUserMedia({
       audio: true
     })
+    // set `getUserMedia()` constraints to "auidooutput", where avaialable
+    // see https://bugzilla.mozilla.org/show_bug.cgi?id=934425, https://stackoverflow.com/q/33761770
+    .then(stream => navigator.mediaDevices.enumerateDevices()
+      .then(devices => {
+        const audiooutput = devices.find(device => device.kind == "audiooutput");
+        stream.getTracks().forEach(track => track.stop())
+        if (audiooutput) {
+          const constraints = {
+                  deviceId: {
+                    exact: audiooutput.deviceId
+                  }
+                };
+          return navigator.mediaDevices.getUserMedia({
+            audio: constraints     
+          });
+        }
+        return navigator.mediaDevices.getUserMedia({
+          audio: true
+        });
+      }))
       .then(stream => new Promise(resolve => {
         const track = stream.getAudioTracks()[0]
         this.mediaStream_.addTrack(track)
