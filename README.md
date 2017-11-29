@@ -12,7 +12,7 @@ types, see [MediaStream, ArrayBuffer, Blob audio result from speak() for recordi
 Add the following script tag
 
 ```html
-<script type="text/javascript" src="https://unpkg.com/speech-synthesis-recorder@1.0.0/SpeechSynthesisRecorder.js"></script>
+<script type="text/javascript" src="https://unpkg.com/speech-synthesis-recorder@1.1.0/SpeechSynthesisRecorder.js"></script>
 ```
 
 or npm install
