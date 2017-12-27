@@ -30,7 +30,7 @@ prompt.
 ```js
 let ttsRecorder = new SpeechSynthesisRecorder({
   text: "The revolution will not be televised", 
-  utternanceOptions: {
+  utteranceOptions: {
     voice: "english-us espeak",
     lang: "en-US",
     pitch: .75,
