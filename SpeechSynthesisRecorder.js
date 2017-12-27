@@ -9,12 +9,13 @@
 
 /* global MediaRecorder SpeechSynthesisUtterance MediaStream MediaSource AudioContext navigator Blob ReadableStream URL Audio FileReader */
 class SpeechSynthesisRecorder {
-  constructor ({text = '', utteranceOptions = {}, recorderOptions = {}, dataType = ''}) {
+  constructor({
+    text = '', utteranceOptions = {}, recorderOptions = {}, dataType = ''
+  }) {
     if (text === '') throw new Error('no words to synthesize')
     this.dataType = dataType
     this.text = text
-    this.mimeType = MediaRecorder.isTypeSupported('audio/webm; codecs=opus')
-                    ? 'audio/webm; codecs=opus' : 'audio/ogg; codecs=opus'
+    this.mimeType = MediaRecorder.isTypeSupported('audio/webm; codecs=opus') ? 'audio/webm; codecs=opus' : 'audio/ogg; codecs=opus'
     this.utterance = new SpeechSynthesisUtterance(this.text)
     this.speechSynthesis = window.speechSynthesis
     this.mediaStream_ = new MediaStream()
@@ -38,47 +39,52 @@ class SpeechSynthesisRecorder {
         this.speechSynthesis.getVoices()
       }
       let {
-        lang, rate, pitch
-      } = utteranceOptions
+        lang, rate, pitch, volume
+      } = utteranceOptions;
+      console.log(rate)
       Object.assign(this.utterance, {
-        lang, rate, pitch
+        lang, rate, pitch, volume
       })
     }
+    console.log(this.utterance)
     this.audioNode.controls = 'controls'
     document.body.appendChild(this.audioNode)
   }
-  start (text = '') {
+  start(text = '') {
     if (text) this.text = text
     if (this.text === '') throw new Error('no words to synthesize')
     return navigator.mediaDevices.getUserMedia({
-      audio: true
-    })
-    // set `getUserMedia()` constraints to "auidooutput", where avaialable
-    // see https://bugzilla.mozilla.org/show_bug.cgi?id=934425, https://stackoverflow.com/q/33761770
-    .then(stream => navigator.mediaDevices.enumerateDevices()
-      .then(devices => {
-        const audiooutput = devices.find(device => device.kind == "audiooutput");
-        stream.getTracks().forEach(track => track.stop())
-        if (audiooutput) {
-          const constraints = {
-                  deviceId: {
-                    exact: audiooutput.deviceId
-                  }
-                };
+        audio: true
+      })
+      // set `getUserMedia()` constraints to "auidooutput", where avaialable
+      // see https://bugzilla.mozilla.org/show_bug.cgi?id=934425, https://stackoverflow.com/q/33761770
+      .then(stream => navigator.mediaDevices.enumerateDevices()
+        .then(devices => {
+          const audiooutput = devices.find(device => device.kind == "audiooutput");
+          stream.getTracks().forEach(track => track.stop())
+          if (audiooutput) {
+            const constraints = {
+              deviceId: {
+                exact: audiooutput.deviceId
+              }
+            };
+            return navigator.mediaDevices.getUserMedia({
+              audio: constraints
+            });
+          }
           return navigator.mediaDevices.getUserMedia({
-            audio: constraints     
+            audio: true
           });
-        }
-        return navigator.mediaDevices.getUserMedia({
-          audio: true
-        });
-      }))
+        }))
       .then(stream => new Promise(resolve => {
         const track = stream.getAudioTracks()[0]
         this.mediaStream_.addTrack(track)
-        // return the current `MediaStream`
+          // return the current `MediaStream`
         if (this.dataType && this.dataType === 'mediaStream') {
-          resolve({tts: this, data: this.mediaStream_})
+          resolve({
+            tts: this,
+            data: this.mediaStream_
+          })
         };
         this.mediaRecorder.ondataavailable = event => {
           if (event.data.size > 0) {
@@ -103,7 +109,7 @@ class SpeechSynthesisRecorder {
         this.speechSynthesis.speak(this.utterance)
       }))
   }
-  blob () {
+  blob() {
     if (!this.chunks.length) throw new Error('no data to return')
     return Promise.resolve({
       tts: this,
@@ -112,7 +118,7 @@ class SpeechSynthesisRecorder {
       })
     })
   }
-  arrayBuffer (blob) {
+  arrayBuffer(blob) {
     if (!this.chunks.length) throw new Error('no data to return')
     return new Promise(resolve => {
       const reader = new FileReader()
@@ -127,16 +133,18 @@ class SpeechSynthesisRecorder {
       }))
     })
   }
-  audioBuffer () {
+  audioBuffer() {
     if (!this.chunks.length) throw new Error('no data to return')
     return this.arrayBuffer()
-      .then(ab => this.audioContext.decodeAudioData(ab))
+      .then(({
+        tts, data
+      }) => this.audioContext.decodeAudioData(data))
       .then(buffer => ({
         tts: this,
         data: buffer
       }))
   }
-  mediaSource () {
+  mediaSource() {
     if (!this.chunks.length) throw new Error('no data to return')
     return this.arrayBuffer()
       .then(({
@@ -160,21 +168,23 @@ class SpeechSynthesisRecorder {
         this.audioNode.src = URL.createObjectURL(this.mediaSource_)
       }))
   }
-  readableStream ({size = 1024, controllerOptions = {}, rsOptions = {}}) {
+  readableStream({
+    size = 1024, controllerOptions = {}, rsOptions = {}
+  }) {
     if (!this.chunks.length) throw new Error('no data to return')
     const src = this.chunks.slice(0)
     const chunk = size
     return Promise.resolve({
       tts: this,
       data: new ReadableStream(controllerOptions || {
-        start (controller) {
-          console.log(src.length)
-          controller.enqueue(src.splice(0, chunk))
-        },
-        pull (controller) {
-          if (src.length === 0) controller.close()
-          controller.enqueue(src.splice(0, chunk))
-        }
+        start(controller) {
+            console.log(src.length)
+            controller.enqueue(src.splice(0, chunk))
+          },
+          pull(controller) {
+            if (src.length === 0) controller.close()
+            controller.enqueue(src.splice(0, chunk))
+          }
       }, rsOptions)
     })
   }
