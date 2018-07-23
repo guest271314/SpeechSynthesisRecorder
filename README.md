@@ -35,6 +35,9 @@ let ttsRecorder = new SpeechSynthesisRecorder({
     lang: "en-US",
     pitch: .75,
     rate: 1
+  },
+  recorderOptions: {
+    appendTo: '#dom-selector' //default 'body'
   }
 });
 ```
